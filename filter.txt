@@ -1,1 +1,2 @@
-www.youtube.com#%#//scriptlet('trusted-click-element', 'ytd-app[guide-persistent-and-visible] #guide-button')
+!www.youtube.com#%#//scriptlet('trusted-click-element', 'ytd-app[guide-persistent-and-visible] #guide-button')
+www.youtube.com##+js(trusted-click-element, ytd-app[guide-persistent-and-visible] #guide-button)

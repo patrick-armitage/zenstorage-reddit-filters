@@ -1,0 +1,73 @@
+.desktop {
+    .App {
+        > .ApplicationFooter {
+            width: 80px !important;
+        }
+        > div:not([class]) {
+            display: none !important;
+        }
+    }
+    .topNav {
+        justify-content: space-between !important;
+    }
+    .topNav-wrap {
+        display: contents !important;
+        > div:not([class]) {
+            display: none !important;
+        }
+        > button {
+            position: unset !important;
+            transform: unset !important;
+        }
+    }
+    .routeWrapper {
+        margin-left: 80px !important;
+        max-width: unset !important;
+    }
+    /* prettier-ignore */
+    .skyWrapper, .routeWrapper {
+      > .left, > .right {
+        display: none !important;
+      }
+      > .middle {
+        width: 100% !important;
+      }
+      .watchPage {
+        margin: 0 !important;
+      }
+      .center {
+        max-width: 100% !important;
+      }
+      .NichePage {
+        padding: 0 !important;
+      }
+      .previewFeed {
+        height: calc(100vh - var(--header-height)) !important;
+        max-width: 100% !important;
+        scroll-snap-type: both mandatory !important;
+        > [id^="gif_"] {
+          height: calc(100vh - var(--header-height)) !important;
+          max-height: 100vh !important;
+          max-width: 100% !important;
+          margin: 0 !important;
+          scroll-snap-align: center !important;
+        }
+        > :not([id^="gif_"]) {
+          display: none !important;
+        }
+        .GifPreview-TopInfo {
+          top: 0 !important;
+          width: max-content !important;
+          gap: 20px !important;
+          z-index: 9 !important;
+          background-color: rgba(0, 0, 0, .3) !important;
+          border-end-end-radius: 5px !important;
+          padding: 8px !important;
+          flex-direction: row-reverse !important;
+        }
+        .Player-ProgressBar {
+          bottom: 20px !important;
+        }
+      }
+    }
+}

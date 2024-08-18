@@ -94,8 +94,8 @@
 /// alias rh.js
 /// world isolated
 /// dependency safe-self.fn
-function redirectHostname(hostname = '') {
-    if (hostname === '') {
+function redirectHostname(hostname = "") {
+    if (hostname === "") {
         return;
     }
     const safe = safeSelf();
@@ -106,11 +106,16 @@ function redirectHostname(hostname = '') {
             return;
         }
     }
-    let targetOrigin = 'https://' + hostname;
+    let targetOrigin = "https://" + hostname;
     if (URL.canParse(targetOrigin) === false) {
         return;
     }
-    window.location.replace(targetOrigin + window.location.pathname + window.location.search + window.location.hash);
+    window.location.replace(
+        targetOrigin
+        + window.location.pathname
+        + window.location.search
+        + window.location.hash
+    );
 }
 
 /**
@@ -127,14 +132,14 @@ function redirectHostname(hostname = '') {
 /// alias sa.js
 /// world isolated
 /// dependency run-at.fn
-function setAttribute(selector = '', attribute = '', value = '', when = 'complete') {
-    if (selector === '' || attribute === '') {
+function setAttribute(selector = "", attribute = "", value = "", when = "complete") {
+    if (selector === "" || attribute === "") {
         return;
     }
     function setAttr() {
         const nodes = document.querySelectorAll(selector);
         try {
-            nodes.forEach(node => {
+            nodes.forEach((node) => {
                 node.setAttribute(attribute, value);
             });
         } catch (error) {
@@ -156,7 +161,7 @@ function setAttribute(selector = '', attribute = '', value = '', when = 'complet
         observer.observe(document.documentElement, {
             subtree: true,
             childList: true,
-            attributeFilter: [attribute],
+            attributeFilter: [attribute]
         });
     };
     const debouncedCallback = debounce(callback, 20);
@@ -166,7 +171,7 @@ function setAttribute(selector = '', attribute = '', value = '', when = 'complet
         observer.observe(document.documentElement, {
             subtree: true,
             childList: true,
-            attributeFilter: [attribute],
+            attributeFilter: [attribute]
         });
     }, when);
 }
@@ -182,21 +187,21 @@ function setAttribute(selector = '', attribute = '', value = '', when = 'complet
 /// spoof-fetch.js
 /// alias sf.js
 /// dependency safe-self.fn
-function spoofFetch(optionsToMatch = '', responseString = '') {
-    if (optionsToMatch === '' || responseString === '') {
+function spoofFetch(optionsToMatch = "", responseString = "") {
+    if (optionsToMatch === "" || responseString === "") {
         return;
     }
     const safe = safeSelf();
     const needles = [];
-    const conditions = optionsToMatch.split(' ');
-    conditions.forEach(condition => {
-        const setting = condition.split(':', 2);
+    const conditions = optionsToMatch.split(" ");
+    conditions.forEach((condition) => {
+        const setting = condition.split(":", 2);
         let key, needle;
         if (setting.length === 2) {
             key = setting[0];
             needle = safe.patternToRegex(setting[1]);
         } else {
-            key = 'url';
+            key = "url";
             needle = safe.patternToRegex(setting[0]);
         }
         needles.push({ key, needle });
@@ -213,7 +218,7 @@ function spoofFetch(optionsToMatch = '', responseString = '') {
                 const settings = new Map();
                 for (const option in options) {
                     let value = options[option];
-                    if (typeof value !== 'string') {
+                    if (typeof value !== "string") {
                         try {
                             value = safe.JSON_stringify(value);
                         } catch (error) {
@@ -231,37 +236,37 @@ function spoofFetch(optionsToMatch = '', responseString = '') {
             } catch (error) {
                 console.error(error);
             }
-            let responseType = '';
-            if (options.mode === undefined || options.mode === 'cors') {
+            let responseType = "";
+            if (options.mode === undefined || options.mode === "cors") {
                 try {
                     const destinationURL = new URL(options.url);
                     if (destinationURL.origin !== document.location.origin) {
-                        responseType = 'cors';
+                        responseType = "cors";
                     } else {
-                        responseType = 'basic';
+                        responseType = "basic";
                     }
                 } catch (error) {
                     console.error(error);
                 }
             }
-            return Promise.resolve(responseString).then(responseBody => {
+            return Promise.resolve(responseString).then((responseBody) => {
                 const spoofedResponse = new Response(responseBody, {
-                    statusText: 'OK',
+                    statusText: "OK",
                     headers: {
-                        'Content-Length': responseBody.length.toString(),
-                    },
+                        "Content-Length": responseBody.length.toString()
+                    }
                 });
-                safe.Object_defineProperty(spoofedResponse, 'url', {
-                    value: options.url,
+                safe.Object_defineProperty(spoofedResponse, "url", {
+                    value: options.url
                 });
-                if (responseType !== '') {
-                    safe.Object_defineProperty(spoofedResponse, 'type', {
-                        value: responseType,
+                if (responseType !== "") {
+                    safe.Object_defineProperty(spoofedResponse, "type", {
+                        value: responseType
                     });
                 }
                 return spoofedResponse;
             });
-        },
+        }
     });
 }
 
@@ -277,23 +282,23 @@ function twitchClaimBonus() {
     if (/^\/videos\//.test(document.location.pathname)) {
         return;
     }
-    if (getCookieFn('login') === undefined) {
+    if (getCookieFn("login") === undefined) {
         return;
     }
     const safe = safeSelf();
     try {
-        safe.Object_defineProperty(document, 'visibilityState', {
-            value: 'visible',
+        safe.Object_defineProperty(document, "visibilityState", {
+            value: "visible"
         });
-        safe.Object_defineProperty(document, 'hidden', {
-            value: false,
+        safe.Object_defineProperty(document, "hidden", {
+            value: false
         });
-        const args = ['visibilitychange', e => e.stopImmediatePropagation(), true];
+        const args = ["visibilitychange", (e) => e.stopImmediatePropagation(), true];
         safe.addEventListener.apply(document, args);
     } catch (error) {
         console.error(error);
     }
-    console.info('Checking for button container...');
+    console.info("Checking for button container...");
     function leadingDebounce(func, delay) {
         let timer;
         return (...args) => {
@@ -306,9 +311,9 @@ function twitchClaimBonus() {
             }, delay);
         };
     }
-    const logAttempt = success => {
+    const logAttempt = (success) => {
         if (success) {
-            console.info('Bonus point claim succeed!');
+            console.info("Bonus point claim succeed!");
         } else {
             console.info("Bonus point button isn't found!");
         }
@@ -317,7 +322,7 @@ function twitchClaimBonus() {
         let debouncedLog = leadingDebounce(logAttempt, 10000);
         const callback = () => {
             try {
-                document.getElementsByClassName('claimable-bonus__icon')[0].click();
+                document.getElementsByClassName("claimable-bonus__icon")[0].click();
                 debouncedLog = leadingDebounce(logAttempt, 10000);
                 debouncedLog(true);
             } catch (error) {
@@ -328,7 +333,7 @@ function twitchClaimBonus() {
         observer.observe(element, { subtree: true, childList: true });
     }
     const callback = (_, observer) => {
-        const elements = document.getElementsByClassName('chat-input__buttons-container');
+        const elements = document.getElementsByClassName("chat-input__buttons-container");
         if (elements.length > 0) {
             console.info(`Button container found! Initiating auto-claim...`);
             observer.disconnect();
@@ -338,3 +343,4 @@ function twitchClaimBonus() {
     const observer = new MutationObserver(callback);
     observer.observe(document, { subtree: true, childList: true });
 }
+
